@@ -20,8 +20,11 @@ textarea {
 
 input {
   display: block;
-  width: 100px;
-  height: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 600px;
+  height: 150px;
 }
 
 h1 {
@@ -63,4 +66,7 @@ h1 {
   -webkit-border-bottom-left-radius: 8px;
 }
 
+body {
+  background-color: #FEE;
+}
 

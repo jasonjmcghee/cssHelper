@@ -15,7 +15,7 @@
     function fluid( element, sliderElement, attribute, maxVal, defaultSize, regex, innerText, magnitude) {
       $(function() {
         //$('#'+sliderElement).css("background", "rgb(0, 0, 0)");
-          $( "<p class='sliders'>"+innerText+"</p><div id='"+sliderElement+"' class='sliders' ></div>"+"<br />" ).insertAfter(element);
+          $( "<p class='sliders'>"+innerText+"</p><div id='"+sliderElement+"' class='sliders' ></div>").insertAfter(element);
         $('#'+sliderElement).slider({ value: defaultSize });
         $('#'+sliderElement).on( "slide", function( event, ui) {
           var sliderVal = $('#'+sliderElement).slider("option", "value");
@@ -74,24 +74,9 @@
           cssString += "#" + doms[i] + ' { ' + document.getElementById(doms[i]).style.cssText + ' } \n';
         }
       }
-      document.getElementById('genCSS').innerHTML = cssString;
+      document.getElementById('mytext').textContent = cssString;
       //document.getElementById('mytext').createTextRange().execCommand("Copy");
     }
-
-    /*fluid("#hi", "opacity_slider", "opacity", 100, 100, "._", "Alpha", 1);
-    fluid("#hi", "color_slider_red", "color", 100, 0, "#_r", "Red", 1); //fourth
-    fluid("#hi", "color_slider_blue", "color", 100, 0, "#_g", "Green", 1); //third
-    fluid("#hi", "color_slider_green", "color", 100, 0, "#_b", "Blue", 1); //second
-    fluid("#hi", "font_slider", "font-size", 100, 50, "_px", "Font-Size", 1); //first
-    fluid("#hi", "font_family_slider", "font-family", 100, 0, "ff_", "Font", 1);
-    fluid("body", "redness_of_background", "background", 100, 0, "#_r", "Redness", 1);
-    fluid("body", "greenness_of_background", "background", 100, 0, "#_g", "Greenness", 1);
-    fluid("body", "blueness_of_background", "background", 100, 0, "#_b", "Blueness", 1);
-    fluid("thing", "color_slider1_red", "background", 100, 0, "#_r", "Red"); //fourth
-    fluid("thing", "color_slider1_blue", "background", 100, 0, "#_g", "Blue"); //third
-    fluid("thing", "color_slider1_green", "background", 100, 0, "#_b", "Green"); //second
-    fluid("thing", "width_slider", "width", 100, 50, "_%", "Width");
-    fluid("thing", "height_slider", "height", 100, 50, "_%", "Height");*/
 
     fluid("#mytitle", "text_mover", "margin-left", 100, 80, "_px", "Margin", 5);
     fluid("#mytitle", "opacity_slider", "opacity", 100, 100, "._", "Alpha", 1);
@@ -100,27 +85,24 @@
     fluid("#mytitle", "color_slider_green", "color", 100, 0, "#_b", "Blue", 1); //second
     fluid("#mytitle", "font_slider", "font-size", 100, 50, "_px", "Font-Size", 1); //first
     fluid("#mytitle", "font_family_slider", "font-family", 100, 0, "ff_", "Font", 1);
-    
-    $('.button li').on('click', function(evt) {
-    });
+  
 
   </script>
 </head>
 
-<body id="mybody">
+<body id="mybody" onload="prettyPrint()">
   <div id="container">
-    <input type="text" name="name" class="sliders" id="mytitle" value="Hello World" maxlength="25" autocomplete="off">
-    <!-- <h1 id="hi" class='sliders'>Hello There!</h1> -->
+    <input type="text" name="name" id="mytitle" value="Hello World" maxlength="25" autocomplete="off">
   </div>
   <br />
-
   <br />
-  <br />
-  <p class='sliders' style="text-align: center;">Separate DOMs by commas, and reference by id!</p>
   <textarea id="mytext" class='sliders'></textarea>
+  <!--<pre id="mycode" class="prettyprint" style="margin:0 auto; border: 0px; text-align: center;"> #mytitle {
+          width: 100px;
+}
+  </pre>-->
   <br />
-  <ul><li class = "button" >Generate CSS</li></ul>
-  <code id="genCSS"></code>
+  <button class = "button" onclick="getCSS('mytitle');">Generate CSS</button>
   <!--<input class='sliders' type="button" value="Generate CSS" onclick="getCSS(document.getElementById('mytext').value.split(', '));"/>-->
 </body>
 </html>
