@@ -10,9 +10,10 @@ textarea {
 	border: 2px solid #2333E0;
 	border-radius: 10px;
 	height: 200px;
-	width: 230px;
-    margin-top: 140px;
+	width: 200px;
+    margin-top: 60px;
     margin-left: 10px;
+    margin-right: 5px;
 }
 
 #container {
@@ -49,7 +50,7 @@ h1 {
   border: 2px solid #fc0;
   display: block;
   margin-top: 0px;
-  margin-left: 12px;
+  margin-left: auto;
   margin-right: auto;
   width: 150px;
   //height: 40px;
@@ -77,11 +78,11 @@ body {
 #sidebar {
   font-family: 'Varela Round', sans-serif;
   font-color: rgb(0, 0, 0);
-  width: 180px;
   position: fixed;
   left: 0px;
   top: 0px;
   bottom: 0px;
+  margin-left:-5px;
   //background-image:url('brushed.png');
   background-color: rgb(45, 45, 45);
   background-image: url('brushed.png');
@@ -96,19 +97,29 @@ body {
 
 #sidebar .menu {
   //color: rgb(190, 190, 190);
-  width: 90%;
+  width: 100%;
+  text-align: center;
 }
 
 #sidebar .menu ul {
-  
+  margin-top: 20px;
+  padding: 0px;
 }
 
 #sidebar .menu li {
   list-style: none;
-  text-align: center;
-  margin-right: 40px;
+  //margin-right: 20px;
+  margin-top: 10px;
   font-size: 80%;
 
+}
+
+#sidebar .menu li:hover {
+  background-color: rgb(0, 65, 185);
+}
+
+#sidebar .menu li:active {
+  background-color: rgb(0, 105, 185);
 }
 
 #sidebar #mytext {
@@ -126,7 +137,6 @@ body {
 .menu a {
   display: block;
   line-height: 1.5em;
-  font-size: 150%;
   text-align: center;
 }
 

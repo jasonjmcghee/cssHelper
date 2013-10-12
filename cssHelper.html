@@ -13,12 +13,24 @@
   <script>
     var fonts = ['Kite One', 'Libre Baskerville', 'Bigelow Rules', 'Devonshire', 'Allerta', 'Voltaire', 'Bubbler One', 'Roboto Slab', 'Stint Ultra Expanded', 'Autour One'];
 
-    function fluid( element, sliderElement, attribute, maxVal, defaultSize, regex, innerText, magnitude) {
+    function fluid( element, sliderElement, attribute, maxVal, defaultSize, regex, innerText, magnitude, linked) {
       $(function() {
         //$('#'+sliderElement).css("background", "rgb(0, 0, 0)");
           $ ( "<p id='p"+sliderElement+"' class='sliders'>"+innerText+"</p><div id='"+sliderElement+"' class='sliders' ></div>").insertAfter(element);
         $('#'+sliderElement).slider({ value: defaultSize });
         $('#'+sliderElement).on( "slide", function( event, ui) {
+          fluidHelper(element, sliderElement, attribute, maxVal, defaultSize, regex, innerText, magnitude, linked);
+          return;
+        });
+        $('#'+sliderElement).on( "slidechange", function( event, ui) {
+          fluidHelper(element, sliderElement, attribute, maxVal, defaultSize, regex, innerText, magnitude, linked);
+          return;
+        });
+      });
+    }
+
+    function fluidHelper(element, sliderElement, attribute, maxVal, defaultSize, regex, innerText, magnitude, linked) {
+          
           var sliderVal = $('#'+sliderElement).slider("option", "value");
           var regexArray = regex.split("_");
           var prefix = "", suffix = "";
@@ -55,7 +67,7 @@
           } else if (attrVal[0] == ".") {
               attrVal = attrVal.split(".")[1] / 100;
           } else if (attrVal.substring(0,2) == "ff") {
-              attrVal = fonts[parseInt(attrVal.substring(2)) / 10];
+              attrVal = fonts[Math.ceil(parseInt(attrVal.substring(2)) / 10)];
           } else {
            attrVal += suffix;
           }
@@ -63,9 +75,13 @@
           //console.log(attrVal);
           var currText = $('#p'+sliderElement)[0].textContent.split(" - ")[0];
           console.log(currText);
-          $('#p'+sliderElement)[0].textContent = currText + " - " +$(element).css(attribute);
-        });
-      });
+          $('#p'+sliderElement)[0].textContent = currText + " - " + $(element).css(attribute);
+          if (linked.length != 0) {
+            for (var i = 0; i < linked.length; i++) {
+              var currText = $('#p'+linked[i])[0].textContent.split(" - ")[0];
+              $('#p'+linked[i])[0].textContent = currText + " - " + $(element).css(attribute);
+            }
+          }
     }
 
     function getCSS (doms) {
@@ -82,35 +98,113 @@
       //document.getElementById('mytext').createTextRange().execCommand("Copy");
     }
 
-    fluid("#mytitle", "text_mover", "margin-left", 100, 80, "_px", "Margin", 5);
-    fluid("#mytitle", "opacity_slider", "opacity", 100, 100, "._", "Alpha", 1);
-    fluid("#mytitle", "color_slider_red", "color", 100, 0, "#_r", "Red", 1); //fourth
-    fluid("#mytitle", "color_slider_blue", "color", 100, 0, "#_g", "Green", 1); //third
-    fluid("#mytitle", "color_slider_green", "color", 100, 0, "#_b", "Blue", 1); //second
-    fluid("#mytitle", "font_slider", "font-size", 100, 50, "_px", "Font-Size", 1); //first
-    fluid("#mytitle", "font_family_slider", "font-family", 100, 0, "ff_", "Font", 1);
-  
+    fluid("#mytitle", "text_mover", "margin-left", 100, 0, "_px", "Margin", 5, []);
+    fluid("#mytitle", "opacity_slider", "opacity", 100, 100, "._", "Alpha", 1, []);
+    fluid("#mytitle", "color_slider_red", "color", 100, 0, "#_r", "Red", 1, ["color_slider_green", "color_slider_blue"]); //fourth
+    fluid("#mytitle", "color_slider_blue", "color", 100, 0, "#_g", "Green", 1, ["color_slider_red", "color_slider_green"]); //third
+    fluid("#mytitle", "color_slider_green", "color", 100, 0, "#_b", "Blue", 1, ["color_slider_red", "color_slider_blue"]); //second
+    fluid("#mytitle", "font_slider", "font-size", 150, 50, "_px", "Font-Size", 1, []); //first
+    fluid("#mytitle", "font_family_slider", "font-family", 10, 0, "ff_", "Font", 10, []);
+
+    function showFonts() {
+      $('#font_slider').show();    
+      $('#font_family_slider').show();
+      $('#text_mover').hide();
+      $('#color_slider_blue').hide();
+      $('#color_slider_red').hide();
+      $('#color_slider_green').hide();
+      $('#opacity_slider').hide();
+      $('#pfont_slider').show();    
+      $('#pfont_family_slider').show();
+      $('#ptext_mover').hide();
+      $('#pcolor_slider_blue').hide();
+      $('#pcolor_slider_red').hide();
+      $('#pcolor_slider_green').hide();
+      $('#popacity_slider').hide();
+    }
+
+    function showColors() {
+      $('#color_slider_blue').show();
+      $('#color_slider_red').show();
+      $('#color_slider_green').show();
+      $('#opacity_slider').show();
+      $('#font_slider').hide();    
+      $('#font_family_slider').hide();
+      $('#text_mover').hide();
+      $('#pcolor_slider_blue').show();
+      $('#pcolor_slider_red').show();
+      $('#pcolor_slider_green').show();
+      $('#popacity_slider').show();
+      $('#pfont_slider').hide();    
+      $('#pfont_family_slider').hide();
+      $('#ptext_mover').hide();
+    }
+
+    function showMover() {
+      $('#font_slider').hide();    
+      $('#font_family_slider').hide();
+      $('#text_mover').show();
+      $('#color_slider_blue').hide();
+      $('#color_slider_red').hide();
+      $('#color_slider_green').hide();
+      $('#opacity_slider').hide();
+      $('#pfont_slider').hide();    
+      $('#pfont_family_slider').hide();
+      $('#ptext_mover').show();
+      $('#pcolor_slider_blue').hide();
+      $('#pcolor_slider_red').hide();
+      $('#pcolor_slider_green').hide();
+      $('#popacity_slider').hide();
+    }
+
+    function showAll() {
+      $('#font_slider').show();    
+      $('#font_family_slider').show();
+      $('#text_mover').show();
+      $('#color_slider_blue').show();
+      $('#color_slider_red').show();
+      $('#color_slider_green').show();
+      $('#opacity_slider').show();
+      $('#pfont_slider').show();    
+      $('#pfont_family_slider').show();
+      $('#ptext_mover').show();
+      $('#pcolor_slider_blue').show();
+      $('#pcolor_slider_red').show();
+      $('#pcolor_slider_green').show();
+      $('#popacity_slider').show();
+    }
+
+    function active(link) {
+      $('#link1').css('background-color', 'rgb(190, 190, 190)');
+      $('#link2').css('background-color', 'rgb(190, 190, 190)');
+      $('#link3').css('background-color', 'rgb(190, 190, 190)');
+      $('#link4').css('background-color', 'rgb(190, 190, 190)');
+      $('#' + link).css('background-color', 'rgb(0, 155, 185)');
+    }
 
   </script>
 </head>
 
-<body id="mybody"> 
+<body id="mybody" onload="showFonts(); active('link2');"> 
   <div id="sidebar" class="mymenu">
     <div class="menu">
       <a>CSS Helper</a>
       <ul>
-        <li>
-          <a onclick="console.log('you clicked me.')">Fonts</a>
+        <li id="link1">
+          <a onclick="showAll(); active('link1')">All</a>
+         </li>
+        <li id="link2">
+          <a onclick="showFonts(); active('link2')">Fonts</a>
         </li>
-        <li>
-          <a onclick="console.log('you clicked me.')">Colors</a>
+        <li id="link3">
+          <a onclick="showColors(); active('link3')">Colors</a>
         </li>
-        <li>
-          <a onclick="console.log('you clicked me.')">Position</a>
+        <li id="link4">
+          <a onclick="showMover(); active('link4')">Position</a>
         </li>
       </ul>
       <div>
-      <textarea id="mytext" ></textarea>
+        <textarea id="mytext" ></textarea> <br/><br>
       <!--<pre id="mycode" class="prettyprint" style="margin:0 auto; border: 0px; text-align: center;"> #mytitle {
               width: 100px;
     }
@@ -121,7 +215,7 @@
         </div>
       </div>
   <div id="container">
-    <input type="text" name="name" id="mytitle" value="Hello World" maxlength="25" autocomplete="off">
+    <input type="text" name="name" id="mytitle" value="Type here..." maxlength="25" autocomplete="off">
   <br />
   <br />
 </div>
