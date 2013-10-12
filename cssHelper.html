@@ -1,0 +1,89 @@
+<head>
+  <title>cssHelper</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script>
+    function fluid( element, sliderElement, attribute, maxVal, defaultSize, regex ) {
+      $(function() {
+        //$('#'+sliderElement).css("background", "rgb(0, 0, 0)");
+        $( "<br /><div id='"+sliderElement+"' class='sliders'></div><br/>" ).insertAfter('#'+element);
+        $('#'+sliderElement).slider({ value: defaultSize });
+        $('#'+sliderElement).on( "slide", function( event, ui) {
+          var sliderVal = $('#'+sliderElement).slider("option", "value");
+          var regexArray = regex.split("_");
+          var prefix = "", suffix = "";
+
+          if (regex[0] == "_") {
+            suffix = regexArray[1];
+          } else if (regexArray.length == 1) {
+            prefix = regexArray("_")[1];
+          } else if (regexArray.length > 1) {
+            suffix = regexArray[1], prefix = regexArray[0];
+          }
+
+          var attrVal = prefix + maxVal * (sliderVal/100);
+          if (attrVal[0] == "#") {
+            var num = attrVal.split("#")[1];
+            var val = Math.ceil(num * (255 / 100));
+            var rawColor = $('#'+element).css(attribute).split("(")[1].split(")")[0];
+            //console.log(rawColor);
+            var colorArray = rawColor.split(",");
+            //console.log(colorArray);
+            var r = colorArray[0], g = colorArray[1], b = colorArray[2];
+            if (suffix == "r") {
+              r = val;
+              $('#'+sliderElement).css("background", "rgb(" + val + ", 0, 0)");
+            } else if (suffix == "g") {
+              g = val;
+              $('#'+sliderElement).css("background", "rgb(0, " + val + ", 0)");
+            } else { // b
+              b = val;
+              $('#'+sliderElement).css("background", "rgb(0, 0, " + val + ")");
+            }
+            attrVal = "rgb(" + r + ", " + g + ", " + b + ")";
+            
+          } else if (attrVal[0] == ".") {
+              attrVal = attrVal.split(".")[1] / 100;
+          } else {
+           attrVal += suffix;
+          }
+          $('#'+element).css(attribute, attrVal);
+          console.log(attrVal);
+        });
+      });
+    }
+
+    fluid("hi", "color_slider_red", "color", 100, 0, "#_r"); //fourth
+    fluid("hi", "color_slider_blue", "color", 100, 0, "#_g"); //third
+    fluid("hi", "color_slider_green", "color", 100, 0, "#_b"); //second
+    fluid("hi", "font_slider", "font-size", 64, 50, "_px"); //first
+    fluid("rawr", "font_slider2", "font-size", 30, 50, "_px");
+    fluid("bye", "opacity_slider", "opacity", 100, 100, "._");
+    fluid("thing", "color_slider1_red", "background", 100, 0, "#_r"); //fourth
+    fluid("thing", "color_slider1_blue", "background", 100, 0, "#_g"); //third
+    fluid("thing", "color_slider1_green", "background", 100, 0, "#_b"); //second
+    fluid("thing", "width_slider", "width", 100, 50, "_%");
+    fluid("thing", "height_slider", "height", 100, 50, "_%");
+
+  </script>
+</head>
+
+<body>
+  {{> hello}}
+  <br />
+</body>
+
+<template name="hello">
+  <h1 id="hi">Hello There!</h1>
+  <p id="rawr">This is some cool text</p>
+  {{greeting}}
+  <input type="button" value="Click" />
+  <br />
+  <br />
+  <br />
+  <h1 id="bye">Goodbye!</h1>
+  <br />
+  <div id="thing"><br/></div>
+  <br />
+</template>
