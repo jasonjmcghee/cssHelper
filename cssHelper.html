@@ -5,6 +5,7 @@
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
   <link href="prettify.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="prettify.js"></script>
   <link rel="stylesheet" href="cssHelper.css">
@@ -15,7 +16,7 @@
     function fluid( element, sliderElement, attribute, maxVal, defaultSize, regex, innerText, magnitude) {
       $(function() {
         //$('#'+sliderElement).css("background", "rgb(0, 0, 0)");
-          $( "<p class='sliders'>"+innerText+"</p><div id='"+sliderElement+"' class='sliders' ></div>").insertAfter(element);
+          $ ( "<p id='p"+sliderElement+"' class='sliders'>"+innerText+"</p><div id='"+sliderElement+"' class='sliders' ></div>").insertAfter(element);
         $('#'+sliderElement).slider({ value: defaultSize });
         $('#'+sliderElement).on( "slide", function( event, ui) {
           var sliderVal = $('#'+sliderElement).slider("option", "value");
@@ -60,6 +61,9 @@
           }
           $(element).css(attribute, attrVal);
           //console.log(attrVal);
+          var currText = $('#p'+sliderElement)[0].textContent.split(" - ")[0];
+          console.log(currText);
+          $('#p'+sliderElement)[0].textContent = currText + " - " +$(element).css(attribute);
         });
       });
     }
@@ -90,19 +94,36 @@
   </script>
 </head>
 
-<body id="mybody" onload="prettyPrint()">
+<body id="mybody"> 
+  <div id="sidebar" class="mymenu">
+    <div class="menu">
+      <a>CSS Helper</a>
+      <ul>
+        <li>
+          <a onclick="console.log('you clicked me.')">Fonts</a>
+        </li>
+        <li>
+          <a onclick="console.log('you clicked me.')">Colors</a>
+        </li>
+        <li>
+          <a onclick="console.log('you clicked me.')">Position</a>
+        </li>
+      </ul>
+      <div>
+      <textarea id="mytext" ></textarea>
+      <!--<pre id="mycode" class="prettyprint" style="margin:0 auto; border: 0px; text-align: center;"> #mytitle {
+              width: 100px;
+    }
+      </pre>-->
+      </div>
+      <br />
+      <button class = "button" onclick="getCSS('mytitle');">Generate CSS</button>
+        </div>
+      </div>
   <div id="container">
     <input type="text" name="name" id="mytitle" value="Hello World" maxlength="25" autocomplete="off">
-  </div>
   <br />
   <br />
-  <textarea id="mytext" class='sliders'></textarea>
-  <!--<pre id="mycode" class="prettyprint" style="margin:0 auto; border: 0px; text-align: center;"> #mytitle {
-          width: 100px;
-}
-  </pre>-->
-  <br />
-  <button class = "button" onclick="getCSS('mytitle');">Generate CSS</button>
-  <!--<input class='sliders' type="button" value="Generate CSS" onclick="getCSS(document.getElementById('mytext').value.split(', '));"/>-->
+</div>
 </body>
 </html>
