@@ -1,13 +1,21 @@
+<!DOCTYPE html>
+<html>
 <head>
   <title>cssHelper</title>
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+  <link href="prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="prettify.js"></script>
+  <link rel="stylesheet" href="cssHelper.css">
+  <link href='http://fonts.googleapis.com/css?family=Kite+One|Libre+Baskerville|Bigelow+Rules|Devonshire|Allerta|Voltaire|Bubbler+One|Roboto+Slab|Stint+Ultra+Expanded|Autour+One' rel='stylesheet' type='text/css'>
   <script>
-    function fluid( element, sliderElement, attribute, maxVal, defaultSize, regex ) {
+    var fonts = ['Kite One', 'Libre Baskerville', 'Bigelow Rules', 'Devonshire', 'Allerta', 'Voltaire', 'Bubbler One', 'Roboto Slab', 'Stint Ultra Expanded', 'Autour One'];
+
+    function fluid( element, sliderElement, attribute, maxVal, defaultSize, regex, innerText, magnitude) {
       $(function() {
         //$('#'+sliderElement).css("background", "rgb(0, 0, 0)");
-        $( "<br /><div id='"+sliderElement+"' class='sliders'></div><br/>" ).insertAfter('#'+element);
+          $( "<p class='sliders'>"+innerText+"</p><div id='"+sliderElement+"' class='sliders' ></div>"+"<br />" ).insertAfter(element);
         $('#'+sliderElement).slider({ value: defaultSize });
         $('#'+sliderElement).on( "slide", function( event, ui) {
           var sliderVal = $('#'+sliderElement).slider("option", "value");
@@ -22,11 +30,11 @@
             suffix = regexArray[1], prefix = regexArray[0];
           }
 
-          var attrVal = prefix + maxVal * (sliderVal/100);
+          var attrVal = prefix + maxVal * ((sliderVal*magnitude)/100);
           if (attrVal[0] == "#") {
             var num = attrVal.split("#")[1];
             var val = Math.ceil(num * (255 / 100));
-            var rawColor = $('#'+element).css(attribute).split("(")[1].split(")")[0];
+            var rawColor = $(element).css(attribute).split("(")[1].split(")")[0];
             //console.log(rawColor);
             var colorArray = rawColor.split(",");
             //console.log(colorArray);
@@ -45,45 +53,74 @@
             
           } else if (attrVal[0] == ".") {
               attrVal = attrVal.split(".")[1] / 100;
+          } else if (attrVal.substring(0,2) == "ff") {
+              attrVal = fonts[parseInt(attrVal.substring(2)) / 10];
           } else {
            attrVal += suffix;
           }
-          $('#'+element).css(attribute, attrVal);
-          console.log(attrVal);
+          $(element).css(attribute, attrVal);
+          //console.log(attrVal);
         });
       });
     }
 
-    fluid("hi", "color_slider_red", "color", 100, 0, "#_r"); //fourth
-    fluid("hi", "color_slider_blue", "color", 100, 0, "#_g"); //third
-    fluid("hi", "color_slider_green", "color", 100, 0, "#_b"); //second
-    fluid("hi", "font_slider", "font-size", 64, 50, "_px"); //first
-    fluid("rawr", "font_slider2", "font-size", 30, 50, "_px");
-    fluid("bye", "opacity_slider", "opacity", 100, 100, "._");
-    fluid("thing", "color_slider1_red", "background", 100, 0, "#_r"); //fourth
-    fluid("thing", "color_slider1_blue", "background", 100, 0, "#_g"); //third
-    fluid("thing", "color_slider1_green", "background", 100, 0, "#_b"); //second
-    fluid("thing", "width_slider", "width", 100, 50, "_%");
-    fluid("thing", "height_slider", "height", 100, 50, "_%");
+    function getCSS (doms) {
+      if (typeof doms == "string") {
+        doms = [doms]
+      }
+      var cssString = "";
+      for (var i = 0; i < doms.length; i++) {
+        if (doms[i]) {
+          cssString += "#" + doms[i] + ' { ' + document.getElementById(doms[i]).style.cssText + ' } \n';
+        }
+      }
+      document.getElementById('genCSS').innerHTML = cssString;
+      //document.getElementById('mytext').createTextRange().execCommand("Copy");
+    }
+
+    /*fluid("#hi", "opacity_slider", "opacity", 100, 100, "._", "Alpha", 1);
+    fluid("#hi", "color_slider_red", "color", 100, 0, "#_r", "Red", 1); //fourth
+    fluid("#hi", "color_slider_blue", "color", 100, 0, "#_g", "Green", 1); //third
+    fluid("#hi", "color_slider_green", "color", 100, 0, "#_b", "Blue", 1); //second
+    fluid("#hi", "font_slider", "font-size", 100, 50, "_px", "Font-Size", 1); //first
+    fluid("#hi", "font_family_slider", "font-family", 100, 0, "ff_", "Font", 1);
+    fluid("body", "redness_of_background", "background", 100, 0, "#_r", "Redness", 1);
+    fluid("body", "greenness_of_background", "background", 100, 0, "#_g", "Greenness", 1);
+    fluid("body", "blueness_of_background", "background", 100, 0, "#_b", "Blueness", 1);
+    fluid("thing", "color_slider1_red", "background", 100, 0, "#_r", "Red"); //fourth
+    fluid("thing", "color_slider1_blue", "background", 100, 0, "#_g", "Blue"); //third
+    fluid("thing", "color_slider1_green", "background", 100, 0, "#_b", "Green"); //second
+    fluid("thing", "width_slider", "width", 100, 50, "_%", "Width");
+    fluid("thing", "height_slider", "height", 100, 50, "_%", "Height");*/
+
+    fluid("#mytitle", "text_mover", "margin-left", 100, 80, "_px", "Margin", 5);
+    fluid("#mytitle", "opacity_slider", "opacity", 100, 100, "._", "Alpha", 1);
+    fluid("#mytitle", "color_slider_red", "color", 100, 0, "#_r", "Red", 1); //fourth
+    fluid("#mytitle", "color_slider_blue", "color", 100, 0, "#_g", "Green", 1); //third
+    fluid("#mytitle", "color_slider_green", "color", 100, 0, "#_b", "Blue", 1); //second
+    fluid("#mytitle", "font_slider", "font-size", 100, 50, "_px", "Font-Size", 1); //first
+    fluid("#mytitle", "font_family_slider", "font-family", 100, 0, "ff_", "Font", 1);
+    
+    $('.button li').on('click', function(evt) {
+    });
 
   </script>
 </head>
 
-<body>
-  {{> hello}}
+<body id="mybody">
+  <div id="container">
+    <input type="text" name="name" class="sliders" id="mytitle" value="Hello World" maxlength="25" autocomplete="off">
+    <!-- <h1 id="hi" class='sliders'>Hello There!</h1> -->
+  </div>
   <br />
-</body>
 
-<template name="hello">
-  <h1 id="hi">Hello There!</h1>
-  <p id="rawr">This is some cool text</p>
-  {{greeting}}
-  <input type="button" value="Click" />
   <br />
   <br />
+  <p class='sliders' style="text-align: center;">Separate DOMs by commas, and reference by id!</p>
+  <textarea id="mytext" class='sliders'></textarea>
   <br />
-  <h1 id="bye">Goodbye!</h1>
-  <br />
-  <div id="thing"><br/></div>
-  <br />
-</template>
+  <ul><li class = "button" >Generate CSS</li></ul>
+  <code id="genCSS"></code>
+  <!--<input class='sliders' type="button" value="Generate CSS" onclick="getCSS(document.getElementById('mytext').value.split(', '));"/>-->
+</body>
+</html>
