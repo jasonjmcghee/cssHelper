@@ -104,72 +104,46 @@
     fluid("#mytitle", "font_slider", "font-size", 150, 50, "_px", "Font-Size", 1, []); //first
     fluid("#mytitle", "font_family_slider", "font-family", 10, 0, "ff_", "Font", 10, []);
 
+    var fontSliders = ['font_slider', 'font_family_slider'],
+        colorSliders = ['color_slider_blue', 'color_slider_red', 'color_slider_green', 'opacity_slider'],
+        positionSliders = ['text_mover'];
+
+    var allSliders = [fontSliders, colorSliders, positionSliders];
+
+    function slidersShowHide(show, hide) {
+      if (show != undefined) {
+        for (var j = 0; j < show.length; j++) {
+          for (var i = 0; i < show[j].length; i++) {
+            $('#'+show[j][i]).show()
+            $('#p'+show[j][i]).show()
+          }
+        }
+      }
+
+      if (hide != undefined) {
+        for (var j = 0; j < hide.length; j++) {
+          for (var i = 0; i < hide[j].length; i++) {
+            $('#'+hide[j][i]).hide()
+            $('#p'+hide[j][i]).hide()
+          }
+        }
+      }
+    }
+
     function showFonts() {
-      $('#font_slider').show();    
-      $('#font_family_slider').show();
-      $('#text_mover').hide();
-      $('#color_slider_blue').hide();
-      $('#color_slider_red').hide();
-      $('#color_slider_green').hide();
-      $('#opacity_slider').hide();
-      $('#pfont_slider').show();    
-      $('#pfont_family_slider').show();
-      $('#ptext_mover').hide();
-      $('#pcolor_slider_blue').hide();
-      $('#pcolor_slider_red').hide();
-      $('#pcolor_slider_green').hide();
-      $('#popacity_slider').hide();
+      slidersShowHide( [fontSliders], [colorSliders, positionSliders]);
     }
 
     function showColors() {
-      $('#color_slider_blue').show();
-      $('#color_slider_red').show();
-      $('#color_slider_green').show();
-      $('#opacity_slider').show();
-      $('#font_slider').hide();    
-      $('#font_family_slider').hide();
-      $('#text_mover').hide();
-      $('#pcolor_slider_blue').show();
-      $('#pcolor_slider_red').show();
-      $('#pcolor_slider_green').show();
-      $('#popacity_slider').show();
-      $('#pfont_slider').hide();    
-      $('#pfont_family_slider').hide();
-      $('#ptext_mover').hide();
+      slidersShowHide( [colorSliders], [fontSliders , positionSliders] );
     }
 
     function showMover() {
-      $('#font_slider').hide();    
-      $('#font_family_slider').hide();
-      $('#text_mover').show();
-      $('#color_slider_blue').hide();
-      $('#color_slider_red').hide();
-      $('#color_slider_green').hide();
-      $('#opacity_slider').hide();
-      $('#pfont_slider').hide();    
-      $('#pfont_family_slider').hide();
-      $('#ptext_mover').show();
-      $('#pcolor_slider_blue').hide();
-      $('#pcolor_slider_red').hide();
-      $('#pcolor_slider_green').hide();
-      $('#popacity_slider').hide();
+      slidersShowHide( [positionSliders], [fontSliders, colorSliders] );
     }
 
     function showAll() {
-      $('#font_slider').show();    
-      $('#font_family_slider').show();
-      $('#text_mover').show();
-      $('#color_slider_blue').show();
-      $('#color_slider_red').show();
-      $('#color_slider_green').show();
-      $('#opacity_slider').show();
-      $('#pfont_slider').show();    
-      $('#pfont_family_slider').show();
-      $('#ptext_mover').show();
-      $('#pcolor_slider_blue').show();
-      $('#pcolor_slider_red').show();
-      $('#pcolor_slider_green').show();
-      $('#popacity_slider').show();
+      slidersShowHide(allSliders, [] );
     }
 
     function active(link) {
