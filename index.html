@@ -147,11 +147,32 @@
     }
 
     function active(link) {
-      $('#link1').css('background-color', 'rgb(190, 190, 190)');
-      $('#link2').css('background-color', 'rgb(190, 190, 190)');
-      $('#link3').css('background-color', 'rgb(190, 190, 190)');
-      $('#link4').css('background-color', 'rgb(190, 190, 190)');
+      $('#link1').val(0);
+      leave('link1');
+      $('#link2').val(0);
+      leave('link2');
+      $('#link3').val(0);
+      leave('link3');
+      $('#link4').val(0);
+      leave('link4');
       $('#' + link).css('background-color', 'rgb(0, 155, 185)');
+      $('#' + link).val(1);
+    }
+
+    function hover(link) {
+      $('#' + link).css('background-color', 'rgb(0, 85, 185)');
+    }
+    
+    function leave(link) {
+      if ($('#' + link).val() == 1) {
+        $('#' + link).css('background-color', 'rgb(0, 155, 185)');
+      } else {
+        $('#' + link).css('background-color', 'rgb(190, 190, 190)');
+      }
+    }
+
+    function down(link) {
+      $('#' + link).css('background-color', 'rgb(0, 35, 185)');
     }
 
   </script>
@@ -163,16 +184,16 @@
       <a>CSS Helper</a>
       <ul>
         <li id="link1">
-          <a onclick="showAll(); active('link1')">All</a>
+          <a onclick="showAll(); active('link1')" onmousedown="down('link1')" onmouseover="hover('link1')" onmouseout="leave('link1')">All</a>
          </li>
         <li id="link2">
-          <a onclick="showFonts(); active('link2')">Fonts</a>
+          <a onclick="showFonts(); active('link2')" onmousedown="down('link2')"onmouseover="hover('link2')" onmouseout="leave('link2')" >Fonts</a>
         </li>
         <li id="link3">
-          <a onclick="showColors(); active('link3')">Colors</a>
+          <a onclick="showColors(); active('link3')" onmousedown="down('link3')"onmouseover="hover('link3')" onmouseout="leave('link3')">Colors</a>
         </li>
         <li id="link4">
-          <a onclick="showMover(); active('link4')">Position</a>
+          <a onclick="showMover(); active('link4')" onmousedown="down('link4')"onmouseover="hover('link4')" onmouseout="leave('link4')">Position</a>
         </li>
       </ul>
       <div>
