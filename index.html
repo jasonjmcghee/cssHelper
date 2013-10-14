@@ -11,6 +11,8 @@
   <script>
     var fonts = ['Kite One', 'Libre Baskerville', 'Bigelow Rules', 'Devonshire', 'Allerta', 'Voltaire', 'Bubbler One', 'Roboto Slab', 'Stint Ultra Expanded', 'Autour One'];
 
+    var initial = true;
+
     function fluid( element, sliderElement, attribute, maxVal, defaultSize, regex, innerText, magnitude, linked) {
       $(function() {
         //$('#'+sliderElement).css("background", "rgb(0, 0, 0)");
@@ -72,7 +74,6 @@
           $(element).css(attribute, attrVal);
           //console.log(attrVal);
           var currText = $('#p'+sliderElement)[0].textContent.split(" - ")[0];
-          console.log(currText);
           $('#p'+sliderElement)[0].textContent = currText + " - " + $(element).css(attribute);
           if (linked.length != 0) {
             for (var i = 0; i < linked.length; i++) {
@@ -175,6 +176,8 @@
       $('#' + link).css('background-color', 'rgb(0, 35, 185)');
     }
 
+    function clearIt(){}
+
   </script>
 </head>
 
@@ -197,7 +200,7 @@
         </li>
       </ul>
       <div>
-        <textarea id="mytext" ></textarea> 
+        <textarea id="mytext" oninput=""></textarea> 
       <!--<pre id="mycode" class="prettyprint" style="margin:0 auto; border: 0px; text-align: center;"> #mytitle {
               width: 100px;
     }
@@ -208,7 +211,7 @@
         </div>
       </div>
   <div id="container">
-    <input type="text" name="name" id="mytitle" value="Type here..." maxlength="25" autocomplete="off">
+    <input type="text" name="name" id="mytitle" value="Type here..." maxlength="25" autocomplete="off" onclick="if (initial) { $('#mytitle').val(''); initial = false; }">
   <br />
   <br />
 </div>
